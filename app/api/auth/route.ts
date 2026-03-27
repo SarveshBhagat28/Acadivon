@@ -1,0 +1,76 @@
+import { NextRequest, NextResponse } from "next/server";
+import { verifyIdToken } from "@/lib/auth/firebase-admin";
+import { prisma } from "@/lib/db";
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json();
+    const { idToken, name, email } = body;
+
+    if (!idToken) {
+      return NextResponse.json(
+        { success: false, error: "ID token is required" },
+        { status: 400 }
+      );
+    }
+
+    // Verify Firebase token
+    const decodedToken = await verifyIdToken(idToken);
+
+    // Upsert user in database
+    const user = await prisma.user.upsert({
+      where: { firebaseUid: decodedToken.uid },
+      update: {
+        lastActiveAt: new Date(),
+      },
+      create: {
+        firebaseUid: decodedToken.uid,
+        email: email || decodedToken.email || "",
+        name: name || decodedToken.name || "Student",
+        avatar: decodedToken.picture || null,
+      },
+    });
+
+    return NextResponse.json({ success: true, data: user });
+  } catch (error) {
+    console.error("Auth error:", error);
+    return NextResponse.json(
+      { success: false, error: "Authentication failed" },
+      { status: 401 }
+    );
+  }
+}
+
+export async function GET(request: NextRequest) {
+  try {
+    const authHeader = request.headers.get("authorization");
+    if (!authHeader?.startsWith("Bearer ")) {
+      return NextResponse.json(
+        { success: false, error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
+    const token = authHeader.slice(7);
+    const decodedToken = await verifyIdToken(token);
+
+    const user = await prisma.user.findUnique({
+      where: { firebaseUid: decodedToken.uid },
+    });
+
+    if (!user) {
+      return NextResponse.json(
+        { success: false, error: "User not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, data: user });
+  } catch (error) {
+    console.error("Auth GET error:", error);
+    return NextResponse.json(
+      { success: false, error: "Unauthorized" },
+      { status: 401 }
+    );
+  }
+}

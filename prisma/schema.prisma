@@ -1,0 +1,324 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String    @id @default(cuid())
+  firebaseUid     String    @unique
+  email           String    @unique
+  name            String
+  avatar          String?
+  role            Role      @default(STUDENT)
+  semester        Int?
+  branch          String?
+  college         String?
+  xp              Int       @default(0)
+  level           Int       @default(1)
+  streak          Int       @default(0)
+  lastActiveAt    DateTime  @default(now())
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  subjects        Subject[]
+  timetables      Timetable[]
+  attendances     Attendance[]
+  assignments     Assignment[]
+  studySessions   StudySession[]
+  aiInteractions  AIInteraction[]
+  achievements    Achievement[]
+  studyPlans      StudyPlan[]
+  insights        Insight[]
+  ownedGroups     Group[]         @relation("GroupOwner")
+  groupMembers    GroupMember[]
+  messages        Message[]
+
+  @@map("users")
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  code        String?
+  instructor  String?
+  credits     Int      @default(3)
+  color       String   @default("#2196F3")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  timetables  Timetable[]
+  attendances Attendance[]
+  assignments Assignment[]
+
+  @@map("subjects")
+}
+
+model Timetable {
+  id         String    @id @default(cuid())
+  userId     String
+  subjectId  String
+  dayOfWeek  DayOfWeek
+  startTime  String
+  endTime    String
+  room       String?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@map("timetables")
+}
+
+model Attendance {
+  id        String           @id @default(cuid())
+  userId    String
+  subjectId String
+  date      DateTime
+  status    AttendanceStatus @default(PRESENT)
+  notes     String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, subjectId, date])
+  @@map("attendances")
+}
+
+model Assignment {
+  id          String           @id @default(cuid())
+  userId      String
+  subjectId   String
+  title       String
+  description String?
+  dueDate     DateTime
+  status      AssignmentStatus @default(PENDING)
+  priority    Priority         @default(MEDIUM)
+  grade       Float?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  subject Subject @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@map("assignments")
+}
+
+model StudySession {
+  id         String   @id @default(cuid())
+  userId     String
+  subjectId  String?
+  title      String?
+  startTime  DateTime
+  endTime    DateTime?
+  duration   Int?     // in minutes
+  type       StudyType @default(REGULAR)
+  xpEarned   Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("study_sessions")
+}
+
+model AIInteraction {
+  id        String          @id @default(cuid())
+  userId    String
+  type      AIInteractionType
+  prompt    String
+  response  String
+  subject   String?
+  tokens    Int?
+  createdAt DateTime        @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("ai_interactions")
+}
+
+model Achievement {
+  id          String   @id @default(cuid())
+  userId      String
+  title       String
+  description String
+  icon        String?
+  xpReward    Int      @default(0)
+  unlockedAt  DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("achievements")
+}
+
+model StudyPlan {
+  id          String    @id @default(cuid())
+  userId      String
+  title       String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  content     Json
+  isActive    Boolean   @default(true)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("study_plans")
+}
+
+model Insight {
+  id        String      @id @default(cuid())
+  userId    String
+  type      InsightType
+  title     String
+  content   String
+  severity  Severity    @default(INFO)
+  metadata  Json?
+  isRead    Boolean     @default(false)
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("insights")
+}
+
+model Group {
+  id          String   @id @default(cuid())
+  ownerId     String
+  name        String
+  description String?
+  subject     String?
+  isLocked    Boolean  @default(false)
+  maxMembers  Int      @default(20)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  owner    User          @relation("GroupOwner", fields: [ownerId], references: [id], onDelete: Cascade)
+  members  GroupMember[]
+  messages Message[]
+
+  @@map("groups")
+}
+
+model GroupMember {
+  id       String   @id @default(cuid())
+  groupId  String
+  userId   String
+  role     GroupRole @default(MEMBER)
+  joinedAt DateTime  @default(now())
+
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, userId])
+  @@map("group_members")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  groupId   String
+  userId    String
+  content   String
+  type      MessageType @default(TEXT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  group Group @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("messages")
+}
+
+// Enums
+enum Role {
+  STUDENT
+  ADMIN
+}
+
+enum DayOfWeek {
+  MONDAY
+  TUESDAY
+  WEDNESDAY
+  THURSDAY
+  FRIDAY
+  SATURDAY
+  SUNDAY
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  CANCELLED
+}
+
+enum AssignmentStatus {
+  PENDING
+  IN_PROGRESS
+  SUBMITTED
+  GRADED
+  OVERDUE
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum StudyType {
+  REGULAR
+  POMODORO
+  DEEP_WORK
+  REVISION
+  EXAM_PREP
+}
+
+enum AIInteractionType {
+  TUTOR
+  ANALYZER
+  PLANNER
+}
+
+enum InsightType {
+  ATTENDANCE
+  PERFORMANCE
+  HABIT
+  RECOMMENDATION
+}
+
+enum Severity {
+  INFO
+  WARNING
+  CRITICAL
+  SUCCESS
+}
+
+enum GroupRole {
+  OWNER
+  ADMIN
+  MEMBER
+}
+
+enum MessageType {
+  TEXT
+  FILE
+  IMAGE
+  SYSTEM
+}
