@@ -5,6 +5,7 @@ export const brandConfig: BrandConfig = {
   tagline: "Your intelligent learning companion",
   version: "0.1.0",
   primaryColor: "#2563eb",
+  pageBackground: "#E0F0FF",
   sidebarColor: "#1e3a5f",
   logoPath: "/logo.svg",
   logoPngPath: "/acadivon-logo.png",

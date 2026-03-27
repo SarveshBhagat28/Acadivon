@@ -15,6 +15,7 @@ export interface BrandConfig {
   tagline: string;
   version: string;
   primaryColor: string;
+  pageBackground: string;
   sidebarColor: string;
   logoPath: string;
   logoPngPath: string;

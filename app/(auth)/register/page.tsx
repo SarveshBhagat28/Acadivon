@@ -3,10 +3,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Logo } from "@/components/Logo";
+import { brandConfig } from "@/lib/branding";
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#E0F0FF] via-white to-[#E0F0FF] flex items-center justify-center p-4">
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        background: `linear-gradient(135deg, ${brandConfig.pageBackground} 0%, #ffffff 50%, ${brandConfig.pageBackground} 100%)`,
+      }}
+    >
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
