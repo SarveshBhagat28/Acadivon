@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { auth, googleProvider, signInWithPopup } from "@/lib/auth/firebase";
+import { auth, googleProvider, signInWithPopup, syncUserWithBackend } from "@/lib/auth";
 import Loading from "./Loading";
 
 interface GoogleButtonProps {
@@ -21,24 +21,19 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
       const result = await signInWithPopup(auth, googleProvider);
       const idToken = await result.user.getIdToken();
 
-      const res = await fetch("/api/auth", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          idToken,
-          name: result.user.displayName,
-          email: result.user.email,
-        }),
-      });
-      if (!res.ok) {
-        const message = await getErrorMessage(res, "Google sign-in failed.");
-        throw new Error(message);
-      }
+      await syncUserWithBackend(
+        idToken,
+        result.user.displayName,
+        result.user.email
+      );
 
       router.push("/dashboard");
     } catch (err: unknown) {
       const error = err as { code?: string; message?: string };
-      if (error.code === "auth/popup-closed-by-user") return;
+      if (error.code === "auth/popup-closed-by-user") {
+        onError("");
+        return;
+      }
       onError(error.message ?? "Google sign-in failed. Please try again.");
     } finally {
       setLoading(false);
@@ -81,16 +76,4 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
       )}
     </button>
   );
-}
-
-async function getErrorMessage(response: Response, fallback: string) {
-  try {
-    const data = await response.json();
-    if (data && typeof data === "object" && "error" in data && typeof data.error === "string") {
-      return data.error;
-    }
-  } catch {
-    // ignore JSON parsing errors
-  }
-  return fallback;
 }

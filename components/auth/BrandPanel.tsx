@@ -8,7 +8,6 @@ import Image from "next/image";
 export default function BrandPanel() {
   return (
     <div
-      aria-hidden="true"
       className="relative hidden lg:flex flex-col items-center justify-center overflow-hidden"
       style={{
         background: "linear-gradient(135deg, #000000 0%, #0a0a1a 30%, #0d1b4b 65%, #0b2a6b 100%)",

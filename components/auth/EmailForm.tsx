@@ -217,8 +217,8 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
 
 function firebaseErrorMessage(code?: string): string | undefined {
   const messages: Record<string, string> = {
-    "auth/user-not-found": "No account found with this email address.",
-    "auth/wrong-password": "Incorrect password. Please try again.",
+    "auth/user-not-found": "Invalid email or password.",
+    "auth/wrong-password": "Invalid email or password.",
     "auth/invalid-credential": "Invalid email or password.",
     "auth/too-many-requests": "Too many attempts. Please wait a moment and try again.",
     "auth/user-disabled": "This account has been disabled.",

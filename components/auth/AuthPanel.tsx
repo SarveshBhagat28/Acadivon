@@ -8,7 +8,7 @@ import AuthError from "./Error";
 
 export default function AuthPanel() {
   const [globalError, setGlobalError] = useState("");
-  const [oauthLoading, setOauthLoading] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
 
   function handleOAuthError(msg: string) {
     if (msg) setGlobalError(msg);
@@ -30,8 +30,8 @@ export default function AuthPanel() {
 
         {/* OAuth buttons */}
         <div className="space-y-3" aria-label="Social sign-in options">
-          <GoogleButton onError={handleOAuthError} disabled={oauthLoading} />
-          <AppleButton onError={handleOAuthError} disabled={oauthLoading} />
+          <GoogleButton onError={handleOAuthError} disabled={authLoading} />
+          <AppleButton onError={handleOAuthError} disabled={authLoading} />
         </div>
 
         {/* Divider */}
@@ -46,8 +46,8 @@ export default function AuthPanel() {
 
         {/* Email / password form */}
         <EmailForm
-          disabled={oauthLoading}
-          onLoadingChange={setOauthLoading}
+          disabled={authLoading}
+          onLoadingChange={setAuthLoading}
         />
       </div>
     </div>
