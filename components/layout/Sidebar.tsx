@@ -84,7 +84,7 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="p-4 border-t border-white/10 text-xs text-blue-200/60 text-center">
-        Acadivon v0.1.0
+        {brandConfig.name} v{brandConfig.version}
       </div>
     </aside>
   );

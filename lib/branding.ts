@@ -9,7 +9,7 @@ export const brandConfig: BrandConfig = {
   pageBackgroundSecondary: "#ffffff",
   sidebarColor: "#1e3a5f",
   logoPath: "/logo.svg",
-  logoPngPath: "/acadivon-logo.png",
+  logoWhitePath: "/logo-white.svg",
 };
 
 const logoSizeMap: Record<LogoSize, { width: number; height: number }> = {

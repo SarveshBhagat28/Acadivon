@@ -19,5 +19,5 @@ export interface BrandConfig {
   pageBackgroundSecondary: string;
   sidebarColor: string;
   logoPath: string;
-  logoPngPath: string;
+  logoWhitePath: string;
 }

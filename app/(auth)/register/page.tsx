@@ -17,14 +17,16 @@ export default function RegisterPage() {
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
           <Logo size="lg" linkTo="/" />
-          <span className="text-3xl font-bold text-gray-900">Acadivon</span>
+          <span className="text-3xl font-bold text-gray-900">
+            {brandConfig.name}
+          </span>
         </div>
 
         <Card>
           <CardHeader>
             <CardTitle className="text-2xl text-center">Create account</CardTitle>
             <CardDescription className="text-center">
-              Join Acadivon and supercharge your studies
+              Join {brandConfig.name} and supercharge your studies
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">

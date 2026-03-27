@@ -13,19 +13,17 @@ export function Logo({
   priority = false,
 }: LogoProps) {
   const { width, height } = getLogoSize(size);
+  const logoSrc =
+    variant === "white" ? brandConfig.logoWhitePath : brandConfig.logoPath;
 
   const imgEl = (
     <Image
-      src={brandConfig.logoPath}
+      src={logoSrc}
       alt="Acadivon logo"
       width={width}
       height={height}
       priority={priority}
-      className={cn(
-        "object-contain",
-        variant === "white" && "brightness-0 invert",
-        className
-      )}
+      className={cn("object-contain", className)}
     />
   );
 
@@ -43,7 +41,7 @@ export function Logo({
           variant === "white" ? "text-white" : "text-gray-900"
         )}
       >
-        Acadivon
+        {brandConfig.name}
       </span>
     </span>
   ) : (
