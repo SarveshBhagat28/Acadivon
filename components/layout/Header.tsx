@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Bell, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -10,8 +11,18 @@ interface HeaderProps {
 export function Header({ title = "Dashboard" }: HeaderProps) {
   return (
     <header className="fixed top-0 right-0 left-64 h-16 bg-white border-b border-blue-100 shadow-sm z-30 flex items-center justify-between px-6">
-      {/* Title */}
-      <h1 className="text-lg font-semibold text-gray-900">{title}</h1>
+      {/* Logo + Title */}
+      <div className="flex items-center gap-3">
+        <Image
+          src="/acadivon-logo.png"
+          alt="Acadivon logo"
+          width={32}
+          height={32}
+          className="rounded-lg object-contain"
+          priority
+        />
+        <h1 className="text-lg font-semibold text-gray-900">{title}</h1>
+      </div>
 
       {/* Right side */}
       <div className="flex items-center gap-3">
