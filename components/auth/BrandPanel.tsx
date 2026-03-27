@@ -1,4 +1,5 @@
 import { Logo } from "@/components/Logo";
+import { brandConfig } from "@/lib/branding";
 
 /**
  * BrandPanel — left half of the split-screen login.
@@ -97,7 +98,7 @@ export default function BrandPanel() {
           <Logo
             size="xl"
             variant="white"
-            alt="Acadivon authentication logo"
+            alt={`${brandConfig.name} authentication logo`}
             className="drop-shadow-xl"
             priority
           />
