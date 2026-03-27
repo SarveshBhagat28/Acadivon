@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -12,7 +13,6 @@ import {
   Settings,
   Users,
   Lock,
-  GraduationCap,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -39,9 +39,14 @@ export function Sidebar() {
     <aside className="fixed left-0 top-0 h-full w-64 bg-white border-r border-blue-100 shadow-sm z-40 flex flex-col">
       {/* Logo */}
       <div className="flex items-center gap-3 p-6 border-b border-blue-100">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow">
-          <GraduationCap className="w-5 h-5 text-white" />
-        </div>
+        <Image
+          src="/logo.jpg"
+          alt="Acadivon logo"
+          width={36}
+          height={36}
+          className="rounded-xl object-contain shadow"
+          priority
+        />
         <span className="text-xl font-bold text-gray-900 tracking-tight">
           Acadivon
         </span>
