@@ -47,7 +47,7 @@ export function Logo({
       </span>
     </span>
   ) : (
-    <span className="inline-flex">{imgEl}</span>
+    imgEl
   );
 
   if (linkTo) {
