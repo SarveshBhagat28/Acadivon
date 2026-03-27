@@ -8,6 +8,7 @@ export function Logo({
   size = "md",
   variant = "default",
   className,
+  alt,
   linkTo,
   showText = false,
   priority = false,
@@ -15,11 +16,12 @@ export function Logo({
   const { width, height } = getLogoSize(size);
   const logoSrc =
     variant === "white" ? brandConfig.logoWhitePath : brandConfig.logoPath;
+  const altText = alt ?? `${brandConfig.name} logo`;
 
   const imgEl = (
     <Image
       src={logoSrc}
-      alt="Acadivon logo"
+      alt={altText}
       width={width}
       height={height}
       priority={priority}

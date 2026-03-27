@@ -5,6 +5,7 @@ export interface LogoProps {
   size?: LogoSize;
   variant?: LogoVariant;
   className?: string;
+  alt?: string;
   priority?: boolean;
   linkTo?: string;
   showText?: boolean;
