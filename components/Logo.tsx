@@ -10,6 +10,7 @@ export function Logo({
   className,
   linkTo,
   showText = false,
+  priority = false,
 }: LogoProps) {
   const { width, height } = getLogoSize(size);
 
@@ -19,6 +20,7 @@ export function Logo({
       alt="Acadivon logo"
       width={width}
       height={height}
+      priority={priority}
       className={cn(
         "object-contain",
         variant === "white" && "brightness-0 invert",

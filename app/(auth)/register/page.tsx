@@ -10,7 +10,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <Logo size="lg" linkTo="/dashboard" />
+          <Logo size="lg" linkTo="/" />
           <span className="text-3xl font-bold text-gray-900">Acadivon</span>
         </div>
 

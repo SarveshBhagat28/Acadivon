@@ -94,7 +94,7 @@ export default function BrandPanel() {
       <div className="relative z-10 flex flex-col items-center gap-8 px-12 text-center">
         {/* Logo */}
         <div className="flex items-center justify-center rounded-2xl bg-white/10 p-5 shadow-2xl ring-1 ring-white/20 backdrop-blur-sm">
-          <Logo size="xl" variant="white" className="drop-shadow-xl" />
+          <Logo size="xl" variant="white" className="drop-shadow-xl" priority />
         </div>
 
         {/* Brand name */}
