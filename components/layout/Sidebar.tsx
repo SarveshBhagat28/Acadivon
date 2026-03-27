@@ -40,7 +40,7 @@ export function Sidebar() {
       {/* Logo */}
       <div className="flex items-center gap-3 p-6 border-b border-blue-100">
         <Image
-          src="/logo.jpg"
+          src="/logo.svg"
           alt="Acadivon logo"
           width={36}
           height={36}

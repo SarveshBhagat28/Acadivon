@@ -5,6 +5,11 @@ export const metadata: Metadata = {
   title: "Acadivon - AI-Powered Education Platform",
   description:
     "Acadivon is an AI-powered education platform for students. Manage timetables, track attendance, get AI tutoring, and optimize your learning.",
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
 };
 
 export default function RootLayout({

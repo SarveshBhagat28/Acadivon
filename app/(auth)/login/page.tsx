@@ -1,4 +1,3 @@
-import { GraduationCap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -10,9 +9,14 @@ export default function LoginPage() {
     <div className="w-full max-w-md">
       {/* Logo */}
       <div className="flex items-center justify-center gap-3 mb-8">
-        <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shadow-lg">
-          <GraduationCap className="w-6 h-6 text-white" />
-        </div>
+        <Image
+          src="/logo.svg"
+          alt="Acadivon logo"
+          width={48}
+          height={48}
+          className="rounded-2xl shadow-lg"
+          priority
+        />
         <span className="text-3xl font-bold text-gray-900">Acadivon</span>
       </div>
 
