@@ -100,7 +100,7 @@ export default function BrandPanel() {
             variant="white"
             alt={`${brandConfig.name} authentication logo`}
             className="drop-shadow-xl"
-            priority={true}
+            priority
           />
         </div>
 
