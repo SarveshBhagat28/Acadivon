@@ -10,7 +10,7 @@ export default function RegisterPage() {
     <div
       className="min-h-screen flex items-center justify-center p-4"
       style={{
-        background: `linear-gradient(135deg, ${brandConfig.pageBackground} 0%, #ffffff 50%, ${brandConfig.pageBackground} 100%)`,
+        background: `linear-gradient(135deg, ${brandConfig.pageBackground} 0%, ${brandConfig.pageBackgroundSecondary} 50%, ${brandConfig.pageBackground} 100%)`,
       }}
     >
       <div className="w-full max-w-md">

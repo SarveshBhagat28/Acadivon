@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/Logo";
+import { brandConfig } from "@/lib/branding";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -34,11 +35,18 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const sidebarStyle = { backgroundColor: brandConfig.sidebarColor };
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-[#1e3a5f] shadow-lg z-40 flex flex-col">
+    <aside
+      className="fixed left-0 top-0 h-full w-64 shadow-lg z-40 flex flex-col"
+      style={sidebarStyle}
+    >
       {/* Logo */}
-      <div className="flex items-center gap-3 p-6 border-b border-white/10 sticky top-0 bg-[#1e3a5f] z-10">
+      <div
+        className="flex items-center gap-3 p-6 border-b border-white/10 sticky top-0 z-10"
+        style={sidebarStyle}
+      >
         <Logo size="md" variant="white" linkTo="/dashboard" />
         <span className="text-xl font-bold text-white tracking-tight">
           Acadivon
