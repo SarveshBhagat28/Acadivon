@@ -76,8 +76,16 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
       });
 
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? "Login failed. Please try again.");
+        let message = "Login failed. Please try again.";
+        try {
+          const data = await res.json();
+          if (data && typeof data === "object" && "error" in data && typeof data.error === "string") {
+            message = data.error;
+          }
+        } catch {
+          // ignore JSON parsing errors
+        }
+        throw new Error(message);
       }
 
       router.push("/dashboard");

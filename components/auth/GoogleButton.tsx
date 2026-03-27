@@ -21,7 +21,7 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
       const result = await signInWithPopup(auth, googleProvider);
       const idToken = await result.user.getIdToken();
 
-      await fetch("/api/auth", {
+      const res = await fetch("/api/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -30,6 +30,10 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
           email: result.user.email,
         }),
       });
+      if (!res.ok) {
+        const message = await getErrorMessage(res, "Google sign-in failed.");
+        throw new Error(message);
+      }
 
       router.push("/dashboard");
     } catch (err: unknown) {
@@ -77,4 +81,16 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
       )}
     </button>
   );
+}
+
+async function getErrorMessage(response: Response, fallback: string) {
+  try {
+    const data = await response.json();
+    if (data && typeof data === "object" && "error" in data && typeof data.error === "string") {
+      return data.error;
+    }
+  } catch {
+    // ignore JSON parsing errors
+  }
+  return fallback;
 }

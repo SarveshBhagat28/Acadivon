@@ -23,8 +23,16 @@ export async function syncUserWithBackend(idToken: string, name?: string | null,
     body: JSON.stringify({ idToken, name, email }),
   });
   if (!res.ok) {
-    const data = await res.json().catch(() => ({})) as { error?: string };
-    throw new Error(data.error ?? "Failed to sync user with backend");
+    let message = "Failed to sync user with backend";
+    try {
+      const data = await res.json();
+      if (data && typeof data === "object" && "error" in data && typeof data.error === "string") {
+        message = data.error;
+      }
+    } catch {
+      // ignore JSON parsing errors
+    }
+    throw new Error(message);
   }
   return res.json();
 }
