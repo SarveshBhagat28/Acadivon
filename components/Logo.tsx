@@ -47,9 +47,7 @@ export function Logo({
       </span>
     </span>
   ) : (
-    <span role="img" aria-label="Acadivon logo" className="inline-flex">
-      {imgEl}
-    </span>
+    <span className="inline-flex">{imgEl}</span>
   );
 
   if (linkTo) {

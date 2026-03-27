@@ -64,7 +64,7 @@ export function Sidebar() {
                 item.locked && "opacity-50 cursor-not-allowed"
               )}
             >
-              <Icon className="shrink-0" size={18} />
+              <Icon className="w-4.5 h-4.5 shrink-0" size={18} />
               <span className="flex-1">{item.label}</span>
               {item.locked && (
                 <Lock size={14} className="shrink-0 opacity-70" />
