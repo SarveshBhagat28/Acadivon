@@ -27,18 +27,19 @@ model User {
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
-  subjects        Subject[]
-  timetables      Timetable[]
-  attendances     Attendance[]
-  assignments     Assignment[]
-  studySessions   StudySession[]
-  aiInteractions  AIInteraction[]
-  achievements    Achievement[]
-  studyPlans      StudyPlan[]
-  insights        Insight[]
-  ownedGroups     Group[]         @relation("GroupOwner")
-  groupMembers    GroupMember[]
-  messages        Message[]
+  subjects            Subject[]
+  timetables          Timetable[]
+  attendances         Attendance[]
+  assignments         Assignment[]
+  studySessions       StudySession[]
+  aiInteractions      AIInteraction[]
+  achievements        Achievement[]
+  studyPlans          StudyPlan[]
+  insights            Insight[]
+  ownedGroups         Group[]              @relation("GroupOwner")
+  groupMembers        GroupMember[]
+  messages            Message[]
+  attendanceUploads   AttendanceUpload[]
 
   @@map("users")
 }
@@ -321,4 +322,19 @@ enum MessageType {
   FILE
   IMAGE
   SYSTEM
+}
+
+model AttendanceUpload {
+  id        String   @id @default(cuid())
+  userId    String
+  imageUrl  String
+  batch     String?
+  rawData   Json?
+  processed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("attendance_uploads")
 }
