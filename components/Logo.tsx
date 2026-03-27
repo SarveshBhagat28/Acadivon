@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { LogoProps } from "@/types/branding";
@@ -13,7 +14,7 @@ export function Logo({
   const { width, height } = getLogoSize(size);
 
   const imgEl = (
-    <img
+    <Image
       src="/logo.svg"
       alt="Acadivon logo"
       width={width}
