@@ -17,9 +17,9 @@ export default function AuthPanel() {
   const [globalError, setGlobalError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
 
-  const firebaseReady = isFirebaseConfigured && !!auth;
+  const isAuthAvailable = isFirebaseConfigured && !!auth;
   const configError = getFirebaseAuthErrorMessage();
-  const isDisabled = authLoading || !firebaseReady;
+  const isDisabled = authLoading || !isAuthAvailable;
 
   function handleOAuthError(msg: string) {
     if (msg) setGlobalError(msg);
