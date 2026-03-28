@@ -14,10 +14,10 @@ const remotePatterns: NonNullable<NextConfig["images"]>["remotePatterns"] = [
 
 try {
   const parsedLogoUrl = new URL(logoUrl);
-  if (parsedLogoUrl.protocol === "http:" || parsedLogoUrl.protocol === "https:") {
+  if (parsedLogoUrl.protocol === "https:") {
     const hostname = parsedLogoUrl.hostname;
-    const pattern: { protocol: "http" | "https"; hostname: string; pathname?: string } = {
-      protocol: parsedLogoUrl.protocol.slice(0, -1) as "http" | "https",
+    const pattern: { protocol: "https"; hostname: string; pathname?: string } = {
+      protocol: "https",
       hostname,
     };
 
@@ -30,7 +30,10 @@ try {
 } catch (error) {
   // Ignore non-absolute logo URLs (e.g., local public assets) but surface malformed URLs in dev.
   if (process.env.NODE_ENV !== "production") {
-    console.warn("Invalid NEXT_PUBLIC_BRAND_LOGO_URL ignored; no remote pattern added.", error);
+    console.warn(
+      "Invalid NEXT_PUBLIC_BRAND_LOGO_URL format (expected absolute HTTPS URL); no remote pattern added.",
+      error
+    );
   }
 }
 
