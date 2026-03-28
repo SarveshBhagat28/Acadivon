@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { verifyIdToken } from "@/lib/auth/firebase-admin";
+import {
+  getFirebaseAdminAuthErrorMessageIfAny,
+  verifyIdToken,
+} from "@/lib/auth/firebase-admin";
 import { prisma } from "@/lib/db";
 
 /**
@@ -8,6 +11,14 @@ import { prisma } from "@/lib/db";
  * Verifies the Firebase ID token and upserts the user record.
  */
 export async function POST(request: NextRequest) {
+  const authConfigError = getFirebaseAdminAuthErrorMessageIfAny();
+  if (authConfigError) {
+    return NextResponse.json(
+      { success: false, error: authConfigError },
+      { status: 503 }
+    );
+  }
+
   try {
     const body = await request.json();
     const { idToken, email } = body as { idToken?: string; email?: string };

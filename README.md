@@ -127,6 +127,13 @@ Copy `.env.local.example` → `.env.local` and fill in every value.
 
 > **Never** commit `.env.local` to version control — it is in `.gitignore`.
 
+### Authentication troubleshooting
+
+- Merging branches does **not** copy deployment environment variables.
+- Client sign-in UI needs: `NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID`.
+- Backend auth APIs (`/api/auth`, `/api/auth/login`) also need: `FIREBASE_ADMIN_PROJECT_ID`, `FIREBASE_ADMIN_PRIVATE_KEY`, `FIREBASE_ADMIN_CLIENT_EMAIL`.
+- If Admin variables are missing, auth API responses return a clear configuration error (HTTP 503) so the root cause is visible.
+
 ---
 
 ## Project Structure
