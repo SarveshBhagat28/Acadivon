@@ -69,7 +69,7 @@ function getFirebaseAuthErrorMessage(): string | null {
   if (!isFirebaseConfigured) {
     return `Firebase authentication is not configured. Add ${missingFirebaseEnv.join(
       ", "
-    )} to your environment variables (Vercel: Project Settings → Environment Variables) and redeploy. If you don't manage deployments, contact your administrator.`;
+    )} to your environment variables and redeploy. If you use Vercel, set them under Project Settings → Environment Variables. If you don't manage deployments, contact your administrator.`;
   }
   if (firebaseInitError) {
     return `Firebase authentication failed to initialize (${firebaseInitError}). Check your environment variables and redeploy, or contact your administrator.`;

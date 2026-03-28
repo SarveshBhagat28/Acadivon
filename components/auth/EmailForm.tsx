@@ -60,16 +60,17 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
       return;
     }
 
+    if (!auth) {
+      setErrors({
+        general:
+          getFirebaseAuthErrorMessage() ?? fallbackAuthUnavailableMessage,
+      });
+      return;
+    }
+
     try {
       setLoading(true);
       onLoadingChange?.(true);
-
-      if (!auth) {
-        const message = getFirebaseAuthErrorMessage();
-        throw new Error(
-          message ?? fallbackAuthUnavailableMessage
-        );
-      }
 
       const credential = await signInWithEmailAndPassword(
         auth,
