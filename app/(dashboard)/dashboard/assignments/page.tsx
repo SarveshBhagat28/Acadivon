@@ -112,7 +112,20 @@ export default function AssignmentsPage() {
       return;
     }
 
-    const localDue = new Date(`${form.dueDate}T${form.dueTime}:00`);
+    const [year, month, day] = form.dueDate.split("-").map(Number);
+    const [hours, minutes] = form.dueTime.split(":").map(Number);
+    if (
+      !year ||
+      !month ||
+      !day ||
+      Number.isNaN(hours) ||
+      Number.isNaN(minutes)
+    ) {
+      setFormError("Please provide a valid due date and time.");
+      return;
+    }
+
+    const localDue = new Date(year, month - 1, day, hours, minutes, 0, 0);
     if (Number.isNaN(localDue.getTime())) {
       setFormError("Please provide a valid due date and time.");
       return;

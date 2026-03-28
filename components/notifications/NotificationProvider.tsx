@@ -34,6 +34,7 @@ interface NotificationContextType {
 }
 
 const NotificationContext = createContext<NotificationContextType | null>(null);
+const NOTIFICATION_POLL_INTERVAL_MS = 60_000;
 
 function getInitialReadIds() {
   if (typeof window === "undefined") return new Set<string>();
@@ -113,8 +114,11 @@ export function NotificationProvider({ children }: { children: React.ReactNode }
     });
 
     const interval = window.setInterval(() => {
+      if (typeof document !== "undefined" && document.visibilityState !== "visible") {
+        return;
+      }
       void fetchNotifications();
-    }, 60000);
+    }, NOTIFICATION_POLL_INTERVAL_MS);
 
     return () => {
       unsubscribe();

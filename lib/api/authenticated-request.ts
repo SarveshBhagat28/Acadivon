@@ -9,7 +9,12 @@ export async function getAuthenticatedUser(request: NextRequest) {
   }
 
   const token = authHeader.slice(7);
-  const decodedToken = await verifyIdToken(token);
+  let decodedToken: { uid: string };
+  try {
+    decodedToken = await verifyIdToken(token);
+  } catch {
+    return { error: "Invalid token", status: 401 as const };
+  }
 
   const user = await prisma.user.findUnique({
     where: { firebaseUid: decodedToken.uid },

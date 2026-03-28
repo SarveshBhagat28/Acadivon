@@ -15,6 +15,7 @@ interface AssignmentNotification {
   dueDate: string;
   createdAt: string;
 }
+const MAX_NOTIFICATIONS = 6;
 
 function buildNotification(assignment: {
   id: string;
@@ -65,7 +66,7 @@ export async function GET(request: NextRequest) {
         return true;
       })
       .map(buildNotification)
-      .slice(0, 6);
+      .slice(0, MAX_NOTIFICATIONS);
 
     return NextResponse.json({
       success: true,
