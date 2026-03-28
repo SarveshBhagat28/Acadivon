@@ -29,7 +29,10 @@ export default function AuthPanel() {
         <header className="space-y-4 text-center">
           <div className="flex items-center justify-center gap-3">
             <Logo size="xl" priority />
-            <span className="text-3xl font-bold text-[#1e3a5f]">
+            <span
+              className="text-3xl font-bold"
+              style={{ color: brandConfig.sidebarColor }}
+            >
               {brandConfig.name}
             </span>
           </div>
