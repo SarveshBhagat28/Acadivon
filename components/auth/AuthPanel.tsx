@@ -19,7 +19,7 @@ export default function AuthPanel() {
 
   const isAuthAvailable = isFirebaseConfigured && !!auth;
   const configError = getFirebaseAuthErrorMessage();
-  const isDisabled = authLoading || !isAuthAvailable;
+  const shouldDisableAuth = authLoading || !isAuthAvailable;
 
   function handleOAuthError(msg: string) {
     if (msg) setGlobalError(msg);
@@ -51,8 +51,8 @@ export default function AuthPanel() {
 
         {/* OAuth buttons */}
         <div className="space-y-3" aria-label="Social sign-in options">
-          <GoogleButton onError={handleOAuthError} disabled={isDisabled} />
-          <AppleButton onError={handleOAuthError} disabled={isDisabled} />
+          <GoogleButton onError={handleOAuthError} disabled={shouldDisableAuth} />
+          <AppleButton onError={handleOAuthError} disabled={shouldDisableAuth} />
         </div>
 
         {/* Divider */}
@@ -67,7 +67,7 @@ export default function AuthPanel() {
 
         {/* Email / password form */}
         <EmailForm
-          disabled={isDisabled}
+          disabled={shouldDisableAuth}
           onLoadingChange={setAuthLoading}
         />
       </div>

@@ -30,11 +30,11 @@ const firebaseEnvVars = [
   ["NEXT_PUBLIC_FIREBASE_APP_ID", firebaseConfig.appId],
 ] as const;
 
-const missingFirebaseEnv = firebaseEnvVars
+const missingFirebaseEnvVars = firebaseEnvVars
   .filter(([, value]) => !value)
   .map(([key]) => key);
 
-const isFirebaseConfigured = missingFirebaseEnv.length === 0;
+const isFirebaseConfigured = missingFirebaseEnvVars.length === 0;
 
 const fallbackAuthUnavailableMessage =
   "Authentication is currently unavailable. Please contact your administrator.";
@@ -61,13 +61,13 @@ if (isFirebaseConfigured) {
 } else if (process.env.NODE_ENV !== "production") {
   console.warn(
     "Firebase client config is missing. Set:",
-    missingFirebaseEnv.join(", ")
+    missingFirebaseEnvVars.join(", ")
   );
 }
 
 function getFirebaseAuthErrorMessage(): string | null {
   if (!isFirebaseConfigured) {
-    return `Firebase authentication is not configured. Add ${missingFirebaseEnv.join(
+    return `Firebase authentication is not configured. Add ${missingFirebaseEnvVars.join(
       ", "
     )} to your environment variables and redeploy (Vercel: Project Settings → Environment Variables). If you don't manage deployments, contact your administrator.`;
   }
@@ -88,7 +88,7 @@ export {
   onAuthStateChanged,
   type User,
   isFirebaseConfigured,
-  missingFirebaseEnv,
+  missingFirebaseEnvVars,
   firebaseInitError,
   getFirebaseAuthErrorMessage,
   fallbackAuthUnavailableMessage,
