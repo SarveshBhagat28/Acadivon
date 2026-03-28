@@ -21,13 +21,17 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-function getValidatedFirebaseConfig(): Required<typeof firebaseConfig> | null {
+function getValidatedFirebaseConfig():
+  | (Pick<
+      Required<typeof firebaseConfig>,
+      "apiKey" | "authDomain" | "projectId" | "appId"
+    > &
+      Partial<Pick<Required<typeof firebaseConfig>, "storageBucket" | "messagingSenderId">>)
+  | null {
   if (
     !firebaseConfig.apiKey ||
     !firebaseConfig.authDomain ||
     !firebaseConfig.projectId ||
-    !firebaseConfig.storageBucket ||
-    !firebaseConfig.messagingSenderId ||
     !firebaseConfig.appId
   ) {
     return null;
@@ -37,22 +41,24 @@ function getValidatedFirebaseConfig(): Required<typeof firebaseConfig> | null {
     apiKey: firebaseConfig.apiKey,
     authDomain: firebaseConfig.authDomain,
     projectId: firebaseConfig.projectId,
-    storageBucket: firebaseConfig.storageBucket,
-    messagingSenderId: firebaseConfig.messagingSenderId,
     appId: firebaseConfig.appId,
+    ...(firebaseConfig.storageBucket
+      ? { storageBucket: firebaseConfig.storageBucket }
+      : {}),
+    ...(firebaseConfig.messagingSenderId
+      ? { messagingSenderId: firebaseConfig.messagingSenderId }
+      : {}),
   };
 }
 
-const firebaseEnvVars = [
+const requiredFirebaseAuthEnvVars = [
   ["NEXT_PUBLIC_FIREBASE_API_KEY", firebaseConfig.apiKey],
   ["NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN", firebaseConfig.authDomain],
   ["NEXT_PUBLIC_FIREBASE_PROJECT_ID", firebaseConfig.projectId],
-  ["NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET", firebaseConfig.storageBucket],
-  ["NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID", firebaseConfig.messagingSenderId],
   ["NEXT_PUBLIC_FIREBASE_APP_ID", firebaseConfig.appId],
 ] as const;
 
-const missingFirebaseEnvVars = firebaseEnvVars
+const missingFirebaseEnvVars = requiredFirebaseAuthEnvVars
   .filter(([, value]) => !value)
   .map(([key]) => key);
 
