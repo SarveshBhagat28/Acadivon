@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth, signInWithPopup, syncUserWithBackend } from "@/lib/auth";
-import { getFirebaseAuthErrorMessage } from "@/lib/auth/firebase";
+import { getFirebaseAuthUnavailableMessage } from "@/lib/auth/firebase";
 import { OAuthProvider } from "firebase/auth";
 import Loading from "./Loading";
 
@@ -21,11 +21,7 @@ export default function AppleButton({ onError, disabled }: AppleButtonProps) {
       setLoading(true);
       onError("");
       if (!auth) {
-        const message = getFirebaseAuthErrorMessage();
-        onError(
-          message ??
-            "Authentication is currently unavailable. Please contact your administrator."
-        );
+        onError(getFirebaseAuthUnavailableMessage());
         return;
       }
       const appleProvider = new OAuthProvider("apple.com");

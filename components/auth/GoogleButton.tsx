@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth, googleProvider, signInWithPopup, syncUserWithBackend } from "@/lib/auth";
-import { getFirebaseAuthErrorMessage } from "@/lib/auth/firebase";
+import { getFirebaseAuthUnavailableMessage } from "@/lib/auth/firebase";
 import Loading from "./Loading";
 
 interface GoogleButtonProps {
@@ -19,12 +19,12 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
     try {
       setLoading(true);
       onError("");
-      if (!auth || !googleProvider) {
-        const message = getFirebaseAuthErrorMessage();
-        onError(
-          message ??
-            "Authentication is currently unavailable. Please contact your administrator."
-        );
+      if (!auth) {
+        onError(getFirebaseAuthUnavailableMessage());
+        return;
+      }
+      if (!googleProvider) {
+        onError("Google sign-in is currently unavailable. Please contact your administrator.");
         return;
       }
       const result = await signInWithPopup(auth, googleProvider);

@@ -63,15 +63,29 @@ if (isFirebaseConfigured) {
 }
 
 function getFirebaseAuthErrorMessage(): string | null {
+  const isDetailedMessage = process.env.NODE_ENV !== "production";
   if (!isFirebaseConfigured) {
+    if (!isDetailedMessage) {
+      return "Authentication is not configured. Please contact your administrator.";
+    }
     return `Firebase authentication is not configured. Add ${missingFirebaseEnvVars.join(
       ", "
     )} to your environment variables and redeploy. If you don't manage deployments, contact your administrator.`;
   }
   if (firebaseInitError) {
+    if (!isDetailedMessage) {
+      return "Authentication is currently unavailable. Please contact your administrator.";
+    }
     return `Firebase authentication failed to initialize (${firebaseInitError}). Check your environment variables and redeploy, or contact your administrator.`;
   }
   return null;
+}
+
+function getFirebaseAuthUnavailableMessage(): string {
+  return (
+    getFirebaseAuthErrorMessage() ??
+    "Authentication is currently unavailable. Please contact your administrator."
+  );
 }
 
 export {
@@ -88,4 +102,5 @@ export {
   missingFirebaseEnvVars,
   firebaseInitError,
   getFirebaseAuthErrorMessage,
+  getFirebaseAuthUnavailableMessage,
 };
