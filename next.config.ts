@@ -27,8 +27,11 @@ try {
 
     remotePatterns.push(pattern);
   }
-} catch {
-  // Ignore non-absolute logo URLs (e.g., local public assets)
+} catch (error) {
+  // Ignore non-absolute logo URLs (e.g., local public assets) but surface malformed URLs in dev.
+  if (process.env.NODE_ENV !== "production") {
+    console.warn("Invalid NEXT_PUBLIC_BRAND_LOGO_URL; falling back to default.", error);
+  }
 }
 
 const nextConfig: NextConfig = {

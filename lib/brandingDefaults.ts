@@ -1,3 +1,5 @@
+// Default Acadivon logo hosted on GitHub user attachments.
+// Override via NEXT_PUBLIC_BRAND_LOGO_URL (requires rebuild to update image allowlists).
 export const DEFAULT_BRAND_LOGO_URL =
   "https://github.com/user-attachments/assets/2d600265-2a96-4fad-a84e-dd41c8262295";
 
