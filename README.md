@@ -141,7 +141,7 @@ Copy `.env.local.example` → `.env.local` and fill in every value.
 ```
 Acadivon/
 ├── app/
-│   ├── (auth)/           # Login & Register pages
+│   ├── (auth)/           # Register page
 │   ├── (dashboard)/      # Dashboard, Timetable, AI Hub
 │   ├── api/              # API routes (auth, tutor, analyzer, planner, health)
 │   ├── globals.css
