@@ -62,6 +62,12 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
       setLoading(true);
       onLoadingChange?.(true);
 
+      if (!auth) {
+        throw new Error(
+          "Firebase authentication isn't configured. Update your environment variables and redeploy."
+        );
+      }
+
       const credential = await signInWithEmailAndPassword(
         auth,
         formData.email,

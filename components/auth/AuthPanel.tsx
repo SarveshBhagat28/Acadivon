@@ -7,10 +7,26 @@ import EmailForm from "./EmailForm";
 import AuthError from "./Error";
 import { Logo } from "@/components/Logo";
 import { brandConfig } from "@/lib/branding";
+import {
+  auth,
+  firebaseInitError,
+  isFirebaseConfigured,
+  missingFirebaseEnv,
+} from "@/lib/auth/firebase";
 
 export default function AuthPanel() {
   const [globalError, setGlobalError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
+
+  const firebaseReady = isFirebaseConfigured && !firebaseInitError && !!auth;
+  const configError = !isFirebaseConfigured
+    ? `Firebase authentication isn't configured. Add ${missingFirebaseEnv.join(
+        ", "
+      )} to your Vercel environment variables and redeploy.`
+    : firebaseInitError
+    ? `Firebase authentication failed to initialize (${firebaseInitError}). Check your Vercel environment variables and redeploy.`
+    : "";
+  const isDisabled = authLoading || !firebaseReady;
 
   function handleOAuthError(msg: string) {
     if (msg) setGlobalError(msg);
@@ -33,6 +49,8 @@ export default function AuthPanel() {
           </div>
         </header>
 
+        {configError && <AuthError message={configError} />}
+
         {/* Global OAuth error */}
         {globalError && (
           <AuthError message={globalError} onDismiss={() => setGlobalError("")} />
@@ -40,8 +58,8 @@ export default function AuthPanel() {
 
         {/* OAuth buttons */}
         <div className="space-y-3" aria-label="Social sign-in options">
-          <GoogleButton onError={handleOAuthError} disabled={authLoading} />
-          <AppleButton onError={handleOAuthError} disabled={authLoading} />
+          <GoogleButton onError={handleOAuthError} disabled={isDisabled} />
+          <AppleButton onError={handleOAuthError} disabled={isDisabled} />
         </div>
 
         {/* Divider */}
@@ -56,7 +74,7 @@ export default function AuthPanel() {
 
         {/* Email / password form */}
         <EmailForm
-          disabled={authLoading}
+          disabled={isDisabled}
           onLoadingChange={setAuthLoading}
         />
       </div>

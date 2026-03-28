@@ -19,6 +19,12 @@ export default function AppleButton({ onError, disabled }: AppleButtonProps) {
     try {
       setLoading(true);
       onError("");
+      if (!auth) {
+        onError(
+          "Firebase authentication isn't configured. Update your environment variables and redeploy."
+        );
+        return;
+      }
       const appleProvider = new OAuthProvider("apple.com");
       appleProvider.addScope("email");
       appleProvider.addScope("name");

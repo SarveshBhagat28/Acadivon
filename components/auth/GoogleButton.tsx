@@ -18,6 +18,12 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
     try {
       setLoading(true);
       onError("");
+      if (!auth) {
+        onError(
+          "Firebase authentication isn't configured. Update your environment variables and redeploy."
+        );
+        return;
+      }
       const result = await signInWithPopup(auth, googleProvider);
       const idToken = await result.user.getIdToken();
 
