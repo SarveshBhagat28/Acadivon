@@ -19,11 +19,12 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "github.com",
-        pathname: "/user-attachments/assets/**",
+        pathname: "/user-attachments/assets/2d600265-2a96-4fad-a84e-dd41c8262295",
       },
       {
         protocol: "https",
         hostname: "github-production-user-asset-6210df.s3.amazonaws.com",
+        pathname: "/228167006/570837017-2d600265-2a96-4fad-a84e-dd41c8262295.jpg",
       },
     ],
   },
