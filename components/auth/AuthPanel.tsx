@@ -2,7 +2,6 @@
 
 import { useState, type CSSProperties } from "react";
 import GoogleButton from "./GoogleButton";
-import AppleButton from "./AppleButton";
 import EmailForm from "./EmailForm";
 import AuthError from "./Error";
 import { Logo } from "@/components/Logo";
@@ -52,7 +51,6 @@ export default function AuthPanel() {
         {/* OAuth buttons */}
         <div className="space-y-3" aria-label="Social sign-in options">
           <GoogleButton onError={handleOAuthError} disabled={shouldDisableAuth} />
-          <AppleButton onError={handleOAuthError} disabled={shouldDisableAuth} />
         </div>
 
         {/* Divider */}
