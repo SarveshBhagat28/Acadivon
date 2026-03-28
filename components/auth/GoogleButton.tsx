@@ -20,9 +20,10 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
       setLoading(true);
       onError("");
       if (!auth || !googleProvider) {
+        const message = getFirebaseConfigErrorMessage();
         onError(
-          getFirebaseConfigErrorMessage() ??
-            "Firebase authentication isn't configured. Update your environment variables and redeploy."
+          message ??
+            "Authentication is currently unavailable. Please contact your administrator."
         );
         return;
       }

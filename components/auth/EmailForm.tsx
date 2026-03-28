@@ -64,9 +64,10 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
       onLoadingChange?.(true);
 
       if (!auth) {
+        const message = getFirebaseConfigErrorMessage();
         throw new Error(
-          getFirebaseConfigErrorMessage() ??
-            "Firebase authentication isn't configured. Update your environment variables and redeploy."
+          message ??
+            "Authentication is currently unavailable. Please contact your administrator."
         );
       }
 

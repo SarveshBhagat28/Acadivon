@@ -21,9 +21,10 @@ export default function AppleButton({ onError, disabled }: AppleButtonProps) {
       setLoading(true);
       onError("");
       if (!auth) {
+        const message = getFirebaseConfigErrorMessage();
         onError(
-          getFirebaseConfigErrorMessage() ??
-            "Firebase authentication isn't configured. Update your environment variables and redeploy."
+          message ??
+            "Authentication is currently unavailable. Please contact your administrator."
         );
         return;
       }
