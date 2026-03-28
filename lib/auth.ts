@@ -16,11 +16,16 @@ export {
 } from "@/lib/auth/firebase";
 
 /** Send a Firebase ID token to the backend and return the server response. */
-export async function syncUserWithBackend(idToken: string, name?: string | null, email?: string | null) {
+export async function syncUserWithBackend(
+  idToken: string,
+  name?: string | null,
+  email?: string | null,
+  college?: string | null
+) {
   const res = await fetch("/api/auth", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ idToken, name, email }),
+    body: JSON.stringify({ idToken, name, email, college }),
   });
   if (!res.ok) {
     let message = "Failed to sync user with backend";
