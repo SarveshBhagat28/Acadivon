@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import GoogleButton from "./GoogleButton";
 import AppleButton from "./AppleButton";
 import EmailForm from "./EmailForm";
@@ -8,18 +8,15 @@ import AuthError from "./Error";
 import { Logo } from "@/components/Logo";
 import { brandConfig } from "@/lib/branding";
 import {
-  auth,
   getFirebaseAuthErrorMessageIfAny,
-  isFirebaseConfigured,
 } from "@/lib/auth/firebase";
 
 export default function AuthPanel() {
   const [globalError, setGlobalError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
 
-  const isAuthAvailable = isFirebaseConfigured && !!auth;
   const configError = getFirebaseAuthErrorMessageIfAny();
-  const shouldDisableAuth = authLoading || !isAuthAvailable;
+  const shouldDisableAuth = authLoading;
 
   function handleOAuthError(msg: string) {
     if (msg) setGlobalError(msg);
@@ -31,8 +28,11 @@ export default function AuthPanel() {
         {/* Header */}
         <header className="space-y-4 text-center">
           <div className="flex items-center justify-center gap-3">
-            <Logo size="lg" priority />
-            <span className="text-2xl font-semibold text-gray-900">
+            <Logo size="xl" priority />
+            <span
+              className="text-3xl font-bold text-[color:var(--brand-sidebar-color)]"
+              style={{ "--brand-sidebar-color": brandConfig.sidebarColor } as CSSProperties}
+            >
               {brandConfig.name}
             </span>
           </div>
