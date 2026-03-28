@@ -5,7 +5,12 @@ import { prisma } from "@/lib/db";
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { idToken, name, email } = body;
+    const { idToken, name, email, college } = body as {
+      idToken?: string;
+      name?: string;
+      email?: string;
+      college?: string;
+    };
 
     if (!idToken) {
       return NextResponse.json(
@@ -22,12 +27,16 @@ export async function POST(request: NextRequest) {
       where: { firebaseUid: decodedToken.uid },
       update: {
         lastActiveAt: new Date(),
+        name: name || decodedToken.name || "Student",
+        email: email || decodedToken.email || "",
+        college: college?.trim() || undefined,
       },
       create: {
         firebaseUid: decodedToken.uid,
         email: email || decodedToken.email || "",
         name: name || decodedToken.name || "Student",
         avatar: decodedToken.picture || null,
+        college: college?.trim() || null,
       },
     });
 
