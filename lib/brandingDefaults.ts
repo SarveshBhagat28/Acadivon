@@ -5,7 +5,8 @@ export const DEFAULT_BRAND_LOGO_URL =
 
 /**
  * Returns the configured brand logo URL, falling back to the default asset.
- * Note: changes to NEXT_PUBLIC_BRAND_LOGO_URL require a rebuild to update the image allowlist.
+ * Note: changes to NEXT_PUBLIC_BRAND_LOGO_URL require a rebuild because the
+ * image allowlist is computed at build time in next.config.ts.
  */
 export function getBrandLogoUrl(): string {
   return process.env.NEXT_PUBLIC_BRAND_LOGO_URL ?? DEFAULT_BRAND_LOGO_URL;
