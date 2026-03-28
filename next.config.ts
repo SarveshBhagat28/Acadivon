@@ -1,8 +1,7 @@
 import type { NextConfig } from "next";
+import { getBrandLogoUrl } from "./lib/brandingDefaults";
 
-const logoUrl =
-  process.env.NEXT_PUBLIC_BRAND_LOGO_URL ??
-  "https://github.com/user-attachments/assets/2d600265-2a96-4fad-a84e-dd41c8262295";
+const logoUrl = getBrandLogoUrl();
 
 const remotePatterns: NonNullable<NextConfig["images"]>["remotePatterns"] = [
   // Firebase Storage avatars
@@ -15,13 +14,18 @@ const remotePatterns: NonNullable<NextConfig["images"]>["remotePatterns"] = [
 
 try {
   const parsedLogoUrl = new URL(logoUrl);
-  const protocol = parsedLogoUrl.protocol.replace(":", "");
-  if (protocol === "http" || protocol === "https") {
-    remotePatterns.push({
-      protocol,
-      hostname: parsedLogoUrl.hostname,
-      pathname: parsedLogoUrl.pathname,
-    });
+  if (parsedLogoUrl.protocol === "http:" || parsedLogoUrl.protocol === "https:") {
+    const hostname = parsedLogoUrl.hostname;
+    const pattern: { protocol: "http" | "https"; hostname: string; pathname?: string } = {
+      protocol: parsedLogoUrl.protocol.slice(0, -1) as "http" | "https",
+      hostname,
+    };
+
+    if (hostname === "github.com" && parsedLogoUrl.pathname.startsWith("/user-attachments/assets/")) {
+      pattern.pathname = "/user-attachments/assets/**";
+    }
+
+    remotePatterns.push(pattern);
   }
 } catch {
   // Ignore non-absolute logo URLs (e.g., local public assets)

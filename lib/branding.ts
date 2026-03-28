@@ -1,8 +1,7 @@
 import { LogoSize, BrandConfig } from "@/types/branding";
+import { getBrandLogoUrl } from "@/lib/brandingDefaults";
 
-const logoPath =
-  process.env.NEXT_PUBLIC_BRAND_LOGO_URL ??
-  "https://github.com/user-attachments/assets/2d600265-2a96-4fad-a84e-dd41c8262295";
+const logoPath = getBrandLogoUrl();
 
 export const brandConfig: BrandConfig = {
   name: "Acadivon",
