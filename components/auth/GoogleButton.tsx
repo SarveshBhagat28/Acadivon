@@ -3,10 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth, googleProvider, signInWithPopup, syncUserWithBackend } from "@/lib/auth";
-import {
-  getAuthProviderUnavailableMessage,
-  getFirebaseAuthUnavailableMessage,
-} from "@/lib/auth/firebase";
+import { getFirebaseAuthUnavailableMessage } from "@/lib/auth/firebase";
 import Loading from "./Loading";
 
 interface GoogleButtonProps {
@@ -22,12 +19,8 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
     try {
       setLoading(true);
       onError("");
-      if (!auth) {
+      if (!auth || !googleProvider) {
         onError(getFirebaseAuthUnavailableMessage());
-        return;
-      }
-      if (!googleProvider) {
-        onError(getAuthProviderUnavailableMessage("Google"));
         return;
       }
       const result = await signInWithPopup(auth, googleProvider);

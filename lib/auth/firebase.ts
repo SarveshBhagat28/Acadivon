@@ -113,12 +113,6 @@ function getFirebaseAuthUnavailableMessage(): string {
   );
 }
 
-type AuthProviderName = "Google" | "Apple";
-
-function getAuthProviderUnavailableMessage(provider: AuthProviderName): string {
-  return `${provider} sign-in is currently unavailable. Please contact your administrator.`;
-}
-
 export {
   auth,
   googleProvider,
@@ -134,5 +128,4 @@ export {
   firebaseInitError,
   getFirebaseAuthErrorMessageIfAny,
   getFirebaseAuthUnavailableMessage,
-  getAuthProviderUnavailableMessage,
 };
