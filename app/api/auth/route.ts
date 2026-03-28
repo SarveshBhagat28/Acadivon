@@ -1,18 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
-import {
-  getFirebaseAdminAuthErrorMessageIfAny,
-  verifyIdToken,
-} from "@/lib/auth/firebase-admin";
+import { verifyIdToken } from "@/lib/auth/firebase-admin";
+import { getFirebaseAdminConfigErrorResponse } from "./utils";
 import { prisma } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
-  const authConfigError = getFirebaseAdminAuthErrorMessageIfAny();
-  if (authConfigError) {
-    return NextResponse.json(
-      { success: false, error: authConfigError },
-      { status: 503 }
-    );
-  }
+  const authConfigErrorResponse = getFirebaseAdminConfigErrorResponse();
+  if (authConfigErrorResponse) return authConfigErrorResponse;
 
   try {
     const body = await request.json();
@@ -63,13 +56,8 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
-  const authConfigError = getFirebaseAdminAuthErrorMessageIfAny();
-  if (authConfigError) {
-    return NextResponse.json(
-      { success: false, error: authConfigError },
-      { status: 503 }
-    );
-  }
+  const authConfigErrorResponse = getFirebaseAdminConfigErrorResponse();
+  if (authConfigErrorResponse) return authConfigErrorResponse;
 
   try {
     const authHeader = request.headers.get("authorization");

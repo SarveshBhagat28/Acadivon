@@ -58,9 +58,18 @@ function getAdminApp(): App {
       }),
     });
   } catch (error) {
-    firebaseAdminInitError =
-      error instanceof Error ? error.message : "Firebase Admin initialization failed.";
-    throw new Error(getFirebaseAdminAuthErrorMessageIfAny() ?? "Authentication failed.");
+    const initializationError =
+      error instanceof Error && error.message
+        ? error.message
+        : String(error);
+    firebaseAdminInitError = initializationError;
+    const adminErrorMessage = getFirebaseAdminAuthErrorMessageIfAny();
+    if (adminErrorMessage) {
+      throw new Error(adminErrorMessage);
+    }
+    throw new Error(
+      `Firebase Admin authentication failed to initialize (${initializationError}).`
+    );
   }
 
   return adminApp;
