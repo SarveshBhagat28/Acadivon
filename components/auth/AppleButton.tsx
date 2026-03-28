@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { auth, signInWithPopup, syncUserWithBackend } from "@/lib/auth";
+import { getFirebaseAuthUnavailableMessage } from "@/lib/auth/firebase";
 import { OAuthProvider } from "firebase/auth";
 import Loading from "./Loading";
 
@@ -19,6 +20,10 @@ export default function AppleButton({ onError, disabled }: AppleButtonProps) {
     try {
       setLoading(true);
       onError("");
+      if (!auth) {
+        onError(getFirebaseAuthUnavailableMessage());
+        return;
+      }
       const appleProvider = new OAuthProvider("apple.com");
       appleProvider.addScope("email");
       appleProvider.addScope("name");

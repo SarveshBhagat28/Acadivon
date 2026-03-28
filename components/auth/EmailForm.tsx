@@ -6,6 +6,7 @@ import { z } from "zod";
 import Link from "next/link";
 import {
   auth,
+  getFirebaseAuthUnavailableMessage,
   signInWithEmailAndPassword,
 } from "@/lib/auth/firebase";
 import type { LoginFormData, LoginFormErrors } from "@/types/auth";
@@ -46,6 +47,13 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setErrors({});
+
+    if (!auth) {
+      setErrors({
+        general: getFirebaseAuthUnavailableMessage(),
+      });
+      return;
+    }
 
     const result = loginSchema.safeParse(formData);
     if (!result.success) {

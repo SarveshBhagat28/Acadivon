@@ -7,10 +7,19 @@ import EmailForm from "./EmailForm";
 import AuthError from "./Error";
 import { Logo } from "@/components/Logo";
 import { brandConfig } from "@/lib/branding";
+import {
+  auth,
+  getFirebaseAuthErrorMessageIfAny,
+  isFirebaseConfigured,
+} from "@/lib/auth/firebase";
 
 export default function AuthPanel() {
   const [globalError, setGlobalError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
+
+  const isAuthAvailable = isFirebaseConfigured && !!auth;
+  const configError = getFirebaseAuthErrorMessageIfAny();
+  const shouldDisableAuth = authLoading || !isAuthAvailable;
 
   function handleOAuthError(msg: string) {
     if (msg) setGlobalError(msg);
@@ -33,6 +42,8 @@ export default function AuthPanel() {
           </div>
         </header>
 
+        {configError && <AuthError message={configError} />}
+
         {/* Global OAuth error */}
         {globalError && (
           <AuthError message={globalError} onDismiss={() => setGlobalError("")} />
@@ -40,8 +51,8 @@ export default function AuthPanel() {
 
         {/* OAuth buttons */}
         <div className="space-y-3" aria-label="Social sign-in options">
-          <GoogleButton onError={handleOAuthError} disabled={authLoading} />
-          <AppleButton onError={handleOAuthError} disabled={authLoading} />
+          <GoogleButton onError={handleOAuthError} disabled={shouldDisableAuth} />
+          <AppleButton onError={handleOAuthError} disabled={shouldDisableAuth} />
         </div>
 
         {/* Divider */}
@@ -56,7 +67,7 @@ export default function AuthPanel() {
 
         {/* Email / password form */}
         <EmailForm
-          disabled={authLoading}
+          disabled={shouldDisableAuth}
           onLoadingChange={setAuthLoading}
         />
       </div>
