@@ -21,6 +21,10 @@ const nextConfig: NextConfig = {
         hostname: "github.com",
         pathname: "/user-attachments/assets/**",
       },
+      {
+        protocol: "https",
+        hostname: "github-production-user-asset-6210df.s3.amazonaws.com",
+      },
     ],
   },
 };

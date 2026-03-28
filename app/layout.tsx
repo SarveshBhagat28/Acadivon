@@ -1,15 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { brandConfig } from "@/lib/branding";
 
 export const metadata: Metadata = {
   title: "Acadivon - AI-Powered Education Platform",
   description:
     "Acadivon is an AI-powered education platform for students. Manage timetables, track attendance, get AI tutoring, and optimize your learning.",
   icons: {
-    icon: brandConfig.logoPath,
-    shortcut: brandConfig.logoPath,
-    apple: brandConfig.logoPath,
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
   },
 };
 

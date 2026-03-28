@@ -9,7 +9,7 @@ export const brandConfig: BrandConfig = {
   pageBackgroundSecondary: "#ffffff",
   sidebarColor: "#1e3a5f",
   logoPath: "https://github.com/user-attachments/assets/2d600265-2a96-4fad-a84e-dd41c8262295",
-  logoWhitePath: "https://github.com/user-attachments/assets/2d600265-2a96-4fad-a84e-dd41c8262295",
+  logoWhitePath: "/logo-white.svg",
 };
 
 const logoSizeMap: Record<LogoSize, { width: number; height: number }> = {
