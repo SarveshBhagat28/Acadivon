@@ -15,12 +15,13 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/Logo";
+import { brandConfig } from "@/lib/branding";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Timetable & Attendance", href: "/timetable", icon: Calendar },
   { label: "AI Hub", href: "/ai-hub", icon: BrainCircuit },
-  { label: "Assignments", href: "/assignments", icon: BookOpen },
+  { label: "Assignments", href: "/dashboard/assignments", icon: BookOpen },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Study Tracker", href: "/study-tracker", icon: Timer },
   { label: "Settings", href: "/settings", icon: Settings },
@@ -34,11 +35,18 @@ const navItems = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const sidebarStyle = { backgroundColor: brandConfig.sidebarColor };
 
   return (
-    <aside className="fixed left-0 top-0 h-full w-64 bg-[#1e3a5f] shadow-lg z-40 flex flex-col">
+    <aside
+      className="fixed left-0 top-0 h-full w-64 shadow-lg z-40 flex flex-col"
+      style={sidebarStyle}
+    >
       {/* Logo */}
-      <div className="flex items-center gap-3 p-6 border-b border-white/10 sticky top-0 bg-[#1e3a5f] z-10">
+      <div
+        className="flex items-center gap-3 p-6 border-b border-white/10 sticky top-0 z-10"
+        style={sidebarStyle}
+      >
         <Logo size="md" variant="white" linkTo="/dashboard" />
         <span className="text-xl font-bold text-white tracking-tight">
           Acadivon
@@ -64,7 +72,7 @@ export function Sidebar() {
                 item.locked && "opacity-50 cursor-not-allowed"
               )}
             >
-              <Icon className="shrink-0" size={18} />
+              <Icon className="w-5 h-5 shrink-0" size={20} />
               <span className="flex-1">{item.label}</span>
               {item.locked && (
                 <Lock size={14} className="shrink-0 opacity-70" />
@@ -76,7 +84,7 @@ export function Sidebar() {
 
       {/* Footer */}
       <div className="p-4 border-t border-white/10 text-xs text-blue-200/60 text-center">
-        Acadivon v0.1.0
+        {brandConfig.name} v{brandConfig.version}
       </div>
     </aside>
   );

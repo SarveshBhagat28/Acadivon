@@ -5,6 +5,7 @@ export interface LogoProps {
   size?: LogoSize;
   variant?: LogoVariant;
   className?: string;
+  alt?: string;
   priority?: boolean;
   linkTo?: string;
   showText?: boolean;
@@ -15,7 +16,9 @@ export interface BrandConfig {
   tagline: string;
   version: string;
   primaryColor: string;
+  pageBackground: string;
+  pageBackgroundSecondary: string;
   sidebarColor: string;
   logoPath: string;
-  logoPngPath: string;
+  logoWhitePath: string;
 }

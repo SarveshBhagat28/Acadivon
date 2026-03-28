@@ -1,13 +1,19 @@
 "use client";
 
+import { useState } from "react";
 import { Bell, Search, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { useNotifications } from "@/components/notifications/NotificationProvider";
 
 interface HeaderProps {
   title?: string;
 }
 
 export function Header({ title = "Dashboard" }: HeaderProps) {
+  const [showNotifications, setShowNotifications] = useState(false);
+  const { notifications, bellDot, markAllRead } = useNotifications();
+
   return (
     <header className="fixed top-0 right-0 left-64 h-16 bg-white border-b border-blue-100 shadow-sm z-30 flex items-center justify-between px-6">
       {/* Title */}
@@ -29,10 +35,48 @@ export function Header({ title = "Dashboard" }: HeaderProps) {
         </div>
 
         {/* Notifications */}
-        <Button variant="ghost" size="icon" className="relative">
+        <div className="relative">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative"
+          onClick={() => {
+            setShowNotifications((prev) => !prev);
+            markAllRead();
+          }}
+        >
           <Bell size={18} />
-          <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+          {bellDot && (
+            <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
+          )}
         </Button>
+          {showNotifications && (
+            <div className="absolute right-0 top-11 z-50 w-[min(90vw,360px)]">
+              <Card>
+                <CardContent className="p-3">
+                  <p className="text-xs font-semibold text-gray-500 mb-2">
+                    Notifications
+                  </p>
+                  {notifications.length === 0 ? (
+                    <p className="text-sm text-gray-500">No new notifications</p>
+                  ) : (
+                    <div className="space-y-2 max-h-72 overflow-auto">
+                      {notifications.map((item) => (
+                        <div
+                          key={item.id}
+                          className="rounded-xl border border-blue-100 bg-blue-50/50 p-2.5"
+                        >
+                          <p className="text-sm font-medium text-gray-900">{item.title}</p>
+                          <p className="text-xs text-gray-600">{item.message}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          )}
+        </div>
 
         {/* Profile */}
         <Button variant="ghost" size="icon">

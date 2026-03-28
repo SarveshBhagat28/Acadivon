@@ -2,30 +2,30 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { LogoProps } from "@/types/branding";
-import { getLogoSize } from "@/lib/branding";
+import { brandConfig, getLogoSize } from "@/lib/branding";
 
 export function Logo({
   size = "md",
   variant = "default",
   className,
+  alt,
   linkTo,
   showText = false,
   priority = false,
 }: LogoProps) {
   const { width, height } = getLogoSize(size);
+  const logoSrc =
+    variant === "white" ? brandConfig.logoWhitePath : brandConfig.logoPath;
+  const altText = alt ?? `${brandConfig.name} logo`;
 
   const imgEl = (
     <Image
-      src="/logo.svg"
-      alt="Acadivon logo"
+      src={logoSrc}
+      alt={altText}
       width={width}
       height={height}
       priority={priority}
-      className={cn(
-        "object-contain",
-        variant === "white" && "brightness-0 invert",
-        className
-      )}
+      className={cn("object-contain", className)}
     />
   );
 
@@ -43,7 +43,7 @@ export function Logo({
           variant === "white" ? "text-white" : "text-gray-900"
         )}
       >
-        Acadivon
+        {brandConfig.name}
       </span>
     </span>
   ) : (

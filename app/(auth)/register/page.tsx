@@ -3,22 +3,30 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Logo } from "@/components/Logo";
+import { brandConfig } from "@/lib/branding";
 
 export default function RegisterPage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#E0F0FF] via-white to-[#E0F0FF] flex items-center justify-center p-4">
+    <div
+      className="min-h-screen flex items-center justify-center p-4"
+      style={{
+        background: `linear-gradient(135deg, ${brandConfig.pageBackground} 0%, ${brandConfig.pageBackgroundSecondary} 50%, ${brandConfig.pageBackground} 100%)`,
+      }}
+    >
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="flex items-center justify-center gap-3 mb-8">
-          <Logo size="lg" linkTo="/" />
-          <span className="text-3xl font-bold text-gray-900">Acadivon</span>
+          <Logo size="lg" linkTo="/" priority />
+          <span className="text-3xl font-bold text-gray-900">
+            {brandConfig.name}
+          </span>
         </div>
 
         <Card>
           <CardHeader>
             <CardTitle className="text-2xl text-center">Create account</CardTitle>
             <CardDescription className="text-center">
-              Join Acadivon and supercharge your studies
+              Join {brandConfig.name} and supercharge your studies
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
