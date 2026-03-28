@@ -62,14 +62,17 @@ if (isFirebaseConfigured) {
   );
 }
 
+const fallbackAuthUnavailableMessage =
+  "Authentication is currently unavailable. Please contact your administrator.";
+
 function getFirebaseConfigErrorMessage(): string | null {
   if (!isFirebaseConfigured) {
     return `Firebase authentication isn't configured. Add ${missingFirebaseEnv.join(
       ", "
-    )} to your Vercel environment variables and redeploy. If you don't manage deployments, contact your administrator.`;
+    )} to your environment variables (Vercel: Project Settings → Environment Variables) and redeploy. If you don't manage deployments, contact your administrator.`;
   }
   if (firebaseInitError) {
-    return `Firebase authentication failed to initialize (${firebaseInitError}). Check your Vercel environment variables and redeploy, or contact your administrator.`;
+    return `Firebase authentication failed to initialize (${firebaseInitError}). Check your environment variables and redeploy, or contact your administrator.`;
   }
   return null;
 }
@@ -88,4 +91,5 @@ export {
   missingFirebaseEnv,
   firebaseInitError,
   getFirebaseConfigErrorMessage,
+  fallbackAuthUnavailableMessage,
 };
