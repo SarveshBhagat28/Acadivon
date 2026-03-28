@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { auth, googleProvider, signInWithPopup, syncUserWithBackend } from "@/lib/auth";
 import {
   fallbackAuthUnavailableMessage,
-  getFirebaseConfigErrorMessage,
+  getFirebaseAuthErrorMessage,
 } from "@/lib/auth/firebase";
 import Loading from "./Loading";
 
@@ -23,7 +23,7 @@ export default function GoogleButton({ onError, disabled }: GoogleButtonProps) {
       setLoading(true);
       onError("");
       if (!auth || !googleProvider) {
-        const message = getFirebaseConfigErrorMessage();
+        const message = getFirebaseAuthErrorMessage();
         onError(message ?? fallbackAuthUnavailableMessage);
         return;
       }

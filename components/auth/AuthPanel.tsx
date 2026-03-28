@@ -9,7 +9,7 @@ import { Logo } from "@/components/Logo";
 import { brandConfig } from "@/lib/branding";
 import {
   auth,
-  getFirebaseConfigErrorMessage,
+  getFirebaseAuthErrorMessage,
   isFirebaseConfigured,
 } from "@/lib/auth/firebase";
 
@@ -18,7 +18,7 @@ export default function AuthPanel() {
   const [authLoading, setAuthLoading] = useState(false);
 
   const firebaseReady = isFirebaseConfigured && !!auth;
-  const configError = getFirebaseConfigErrorMessage();
+  const configError = getFirebaseAuthErrorMessage();
   const isDisabled = authLoading || !firebaseReady;
 
   function handleOAuthError(msg: string) {

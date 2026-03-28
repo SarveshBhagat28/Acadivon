@@ -7,7 +7,7 @@ import Link from "next/link";
 import {
   auth,
   fallbackAuthUnavailableMessage,
-  getFirebaseConfigErrorMessage,
+  getFirebaseAuthErrorMessage,
   signInWithEmailAndPassword,
 } from "@/lib/auth/firebase";
 import type { LoginFormData, LoginFormErrors } from "@/types/auth";
@@ -65,7 +65,7 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
       onLoadingChange?.(true);
 
       if (!auth) {
-        const message = getFirebaseConfigErrorMessage();
+        const message = getFirebaseAuthErrorMessage();
         throw new Error(
           message ?? fallbackAuthUnavailableMessage
         );
