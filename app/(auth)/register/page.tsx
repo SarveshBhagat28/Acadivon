@@ -57,6 +57,7 @@ export default function RegisterPage() {
 
     try {
       setLoading(true);
+      const sanitizedCollege = formData.college.trim();
       const credential = await createUserWithEmailAndPassword(
         auth,
         formData.email.trim(),
@@ -68,7 +69,7 @@ export default function RegisterPage() {
         idToken,
         formData.name.trim(),
         formData.email.trim(),
-        formData.college.trim() || null
+        sanitizedCollege ? sanitizedCollege : null
       );
 
       router.push("/dashboard");

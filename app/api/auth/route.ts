@@ -11,6 +11,7 @@ export async function POST(request: NextRequest) {
       email?: string;
       college?: string;
     };
+    const sanitizedCollege = college?.trim() || null;
 
     if (!idToken) {
       return NextResponse.json(
@@ -29,14 +30,14 @@ export async function POST(request: NextRequest) {
         lastActiveAt: new Date(),
         name: name || decodedToken.name || "Student",
         email: email || decodedToken.email || "",
-        college: college?.trim() || undefined,
+        college: sanitizedCollege ?? undefined,
       },
       create: {
         firebaseUid: decodedToken.uid,
         email: email || decodedToken.email || "",
         name: name || decodedToken.name || "Student",
         avatar: decodedToken.picture || null,
-        college: college?.trim() || null,
+        college: sanitizedCollege,
       },
     });
 
