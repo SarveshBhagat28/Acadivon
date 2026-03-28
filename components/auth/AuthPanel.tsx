@@ -9,23 +9,16 @@ import { Logo } from "@/components/Logo";
 import { brandConfig } from "@/lib/branding";
 import {
   auth,
-  firebaseInitError,
+  getFirebaseConfigErrorMessage,
   isFirebaseConfigured,
-  missingFirebaseEnv,
 } from "@/lib/auth/firebase";
 
 export default function AuthPanel() {
   const [globalError, setGlobalError] = useState("");
   const [authLoading, setAuthLoading] = useState(false);
 
-  const firebaseReady = isFirebaseConfigured && !firebaseInitError && !!auth;
-  const configError = !isFirebaseConfigured
-    ? `Firebase authentication isn't configured. Add ${missingFirebaseEnv.join(
-        ", "
-      )} to your Vercel environment variables and redeploy.`
-    : firebaseInitError
-    ? `Firebase authentication failed to initialize (${firebaseInitError}). Check your Vercel environment variables and redeploy.`
-    : "";
+  const firebaseReady = isFirebaseConfigured && !!auth;
+  const configError = getFirebaseConfigErrorMessage();
   const isDisabled = authLoading || !firebaseReady;
 
   function handleOAuthError(msg: string) {

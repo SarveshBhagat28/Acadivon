@@ -39,11 +39,15 @@ const isFirebaseConfigured = missingFirebaseEnv.length === 0;
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
 let firebaseInitError: string | null = null;
+let googleProvider: GoogleAuthProvider | undefined;
+let githubProvider: GithubAuthProvider | undefined;
 
 if (isFirebaseConfigured) {
   try {
     app = getApps().length ? getApp() : initializeApp(firebaseConfig);
     auth = getAuth(app);
+    googleProvider = new GoogleAuthProvider();
+    githubProvider = new GithubAuthProvider();
   } catch (error) {
     firebaseInitError =
       error instanceof Error ? error.message : "Firebase initialization failed.";
@@ -57,8 +61,18 @@ if (isFirebaseConfigured) {
     missingFirebaseEnv.join(", ")
   );
 }
-const googleProvider = new GoogleAuthProvider();
-const githubProvider = new GithubAuthProvider();
+
+function getFirebaseConfigErrorMessage(): string | null {
+  if (!isFirebaseConfigured) {
+    return `Firebase authentication isn't configured. Add ${missingFirebaseEnv.join(
+      ", "
+    )} to your Vercel environment variables and redeploy.`;
+  }
+  if (firebaseInitError) {
+    return `Firebase authentication failed to initialize (${firebaseInitError}). Check your Vercel environment variables and redeploy.`;
+  }
+  return null;
+}
 
 export {
   auth,
@@ -73,4 +87,5 @@ export {
   isFirebaseConfigured,
   missingFirebaseEnv,
   firebaseInitError,
+  getFirebaseConfigErrorMessage,
 };

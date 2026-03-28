@@ -6,6 +6,7 @@ import { z } from "zod";
 import Link from "next/link";
 import {
   auth,
+  getFirebaseConfigErrorMessage,
   signInWithEmailAndPassword,
 } from "@/lib/auth/firebase";
 import type { LoginFormData, LoginFormErrors } from "@/types/auth";
@@ -64,7 +65,8 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
 
       if (!auth) {
         throw new Error(
-          "Firebase authentication isn't configured. Update your environment variables and redeploy."
+          getFirebaseConfigErrorMessage() ??
+            "Firebase authentication isn't configured. Update your environment variables and redeploy."
         );
       }
 
