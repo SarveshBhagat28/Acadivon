@@ -36,9 +36,6 @@ const missingFirebaseEnvVars = firebaseEnvVars
 
 const isFirebaseConfigured = missingFirebaseEnvVars.length === 0;
 
-const fallbackAuthUnavailableMessage =
-  "Authentication is currently unavailable. Please contact your administrator.";
-
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
 let firebaseInitError: string | null = null;
@@ -69,7 +66,7 @@ function getFirebaseAuthErrorMessage(): string | null {
   if (!isFirebaseConfigured) {
     return `Firebase authentication is not configured. Add ${missingFirebaseEnvVars.join(
       ", "
-    )} to your environment variables and redeploy (Vercel: Project Settings → Environment Variables). If you don't manage deployments, contact your administrator.`;
+    )} to your environment variables and redeploy. If you don't manage deployments, contact your administrator.`;
   }
   if (firebaseInitError) {
     return `Firebase authentication failed to initialize (${firebaseInitError}). Check your environment variables and redeploy, or contact your administrator.`;
@@ -91,5 +88,4 @@ export {
   missingFirebaseEnvVars,
   firebaseInitError,
   getFirebaseAuthErrorMessage,
-  fallbackAuthUnavailableMessage,
 };

@@ -6,7 +6,6 @@ import { z } from "zod";
 import Link from "next/link";
 import {
   auth,
-  fallbackAuthUnavailableMessage,
   getFirebaseAuthErrorMessage,
   signInWithEmailAndPassword,
 } from "@/lib/auth/firebase";
@@ -63,7 +62,8 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
     if (!auth) {
       setErrors({
         general:
-          getFirebaseAuthErrorMessage() ?? fallbackAuthUnavailableMessage,
+          getFirebaseAuthErrorMessage() ??
+          "Authentication is currently unavailable. Please contact your administrator.",
       });
       return;
     }
