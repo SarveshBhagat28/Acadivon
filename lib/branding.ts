@@ -1,4 +1,7 @@
 import { LogoSize, BrandConfig } from "@/types/branding";
+import { getBrandLogoUrl } from "@/lib/brandingDefaults";
+
+const logoPath = getBrandLogoUrl();
 
 export const brandConfig: BrandConfig = {
   name: "Acadivon",
@@ -8,7 +11,7 @@ export const brandConfig: BrandConfig = {
   pageBackground: "#E0F0FF",
   pageBackgroundSecondary: "#ffffff",
   sidebarColor: "#1e3a5f",
-  logoPath: "/logo.svg",
+  logoPath,
   logoWhitePath: "/logo-white.svg",
 };
 

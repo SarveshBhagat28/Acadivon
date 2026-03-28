@@ -1,4 +1,43 @@
 import type { NextConfig } from "next";
+import { getBrandLogoUrl } from "./lib/brandingDefaults";
+
+const logoUrl = getBrandLogoUrl();
+
+const remotePatterns: NonNullable<NextConfig["images"]>["remotePatterns"] = [
+  // Firebase Storage avatars
+  { protocol: "https", hostname: "firebasestorage.googleapis.com" },
+  // Google account profile pictures
+  { protocol: "https", hostname: "lh3.googleusercontent.com" },
+  // GitHub account avatars
+  { protocol: "https", hostname: "avatars.githubusercontent.com" },
+];
+
+try {
+  const parsedLogoUrl = new URL(logoUrl);
+  if (parsedLogoUrl.protocol === "https:") {
+    const pattern: { protocol: "https"; hostname: string; pathname?: string } = {
+      protocol: "https",
+      hostname: parsedLogoUrl.hostname,
+    };
+
+    if (
+      parsedLogoUrl.hostname === "github.com" &&
+      parsedLogoUrl.pathname.startsWith("/user-attachments/assets/")
+    ) {
+      pattern.pathname = "/user-attachments/assets/**";
+    }
+
+    remotePatterns.push(pattern);
+  }
+} catch (error) {
+  // Ignore non-absolute logo URLs (e.g., local public assets) but surface malformed URLs in dev.
+  if (process.env.NODE_ENV !== "production") {
+    console.warn(
+      "Invalid NEXT_PUBLIC_BRAND_LOGO_URL format (expected absolute HTTPS URL); no remote pattern added.",
+      error
+    );
+  }
+}
 
 const nextConfig: NextConfig = {
   // Enable standalone output for Docker / Railway deployments
@@ -8,14 +47,7 @@ const nextConfig: NextConfig = {
   serverExternalPackages: ["@prisma/client", "prisma"],
 
   images: {
-    remotePatterns: [
-      // Firebase Storage avatars
-      { protocol: "https", hostname: "firebasestorage.googleapis.com" },
-      // Google account profile pictures
-      { protocol: "https", hostname: "lh3.googleusercontent.com" },
-      // GitHub account avatars
-      { protocol: "https", hostname: "avatars.githubusercontent.com" },
-    ],
+    remotePatterns,
   },
 };
 
