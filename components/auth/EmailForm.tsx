@@ -48,6 +48,13 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
     e.preventDefault();
     setErrors({});
 
+    if (!auth) {
+      setErrors({
+        general: getFirebaseAuthUnavailableMessage(),
+      });
+      return;
+    }
+
     const result = loginSchema.safeParse(formData);
     if (!result.success) {
       const fieldErrors: LoginFormErrors = {};
@@ -56,13 +63,6 @@ export default function EmailForm({ disabled, onLoadingChange }: EmailFormProps)
         if (!fieldErrors[field]) fieldErrors[field] = issue.message;
       }
       setErrors(fieldErrors);
-      return;
-    }
-
-    if (!auth) {
-      setErrors({
-        general: getFirebaseAuthUnavailableMessage(),
-      });
       return;
     }
 

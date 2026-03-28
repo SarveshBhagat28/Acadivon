@@ -57,7 +57,7 @@ if (isFirebaseConfigured) {
   }
 } else if (process.env.NODE_ENV !== "production") {
   console.warn(
-    "Firebase client config is missing. Set:",
+    "Firebase client config is missing. Set the following environment variables:",
     missingFirebaseEnvVars.join(", ")
   );
 }
@@ -88,6 +88,10 @@ function getFirebaseAuthUnavailableMessage(): string {
   );
 }
 
+function getAuthProviderUnavailableMessage(provider: string): string {
+  return `${provider} sign-in is currently unavailable. Please contact your administrator.`;
+}
+
 export {
   auth,
   googleProvider,
@@ -103,4 +107,5 @@ export {
   firebaseInitError,
   getFirebaseAuthErrorMessage,
   getFirebaseAuthUnavailableMessage,
+  getAuthProviderUnavailableMessage,
 };
