@@ -87,7 +87,7 @@ if (validatedFirebaseConfig) {
   );
 }
 
-function getFirebaseAuthErrorMessage(): string | null {
+function getFirebaseAuthErrorMessageIfAny(): string | null {
   const isDetailedMessage = process.env.NODE_ENV !== "production";
   if (!isFirebaseConfigured) {
     if (!isDetailedMessage) {
@@ -108,12 +108,12 @@ function getFirebaseAuthErrorMessage(): string | null {
 
 function getFirebaseAuthUnavailableMessage(): string {
   return (
-    getFirebaseAuthErrorMessage() ??
+    getFirebaseAuthErrorMessageIfAny() ??
     "Authentication is currently unavailable. Please contact your administrator."
   );
 }
 
-type AuthProviderName = "Google";
+type AuthProviderName = "Google" | "Apple";
 
 function getAuthProviderUnavailableMessage(provider: AuthProviderName): string {
   return `${provider} sign-in is currently unavailable. Please contact your administrator.`;
@@ -132,7 +132,7 @@ export {
   isFirebaseConfigured,
   missingFirebaseEnvVars,
   firebaseInitError,
-  getFirebaseAuthErrorMessage,
+  getFirebaseAuthErrorMessageIfAny,
   getFirebaseAuthUnavailableMessage,
   getAuthProviderUnavailableMessage,
 };
