@@ -5,6 +5,8 @@ import GoogleButton from "./GoogleButton";
 import AppleButton from "./AppleButton";
 import EmailForm from "./EmailForm";
 import AuthError from "./Error";
+import { Logo } from "@/components/Logo";
+import { brandConfig } from "@/lib/branding";
 
 export default function AuthPanel() {
   const [globalError, setGlobalError] = useState("");
@@ -18,9 +20,17 @@ export default function AuthPanel() {
     <div className="flex min-h-screen w-full flex-col items-center justify-center bg-white px-6 py-12 lg:px-12">
       <div className="w-full max-w-sm space-y-8">
         {/* Header */}
-        <header className="space-y-1.5 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900">Welcome back</h2>
-          <p className="text-sm text-gray-500">Sign in to continue your journey</p>
+        <header className="space-y-4 text-center">
+          <div className="flex items-center justify-center gap-3">
+            <Logo size="lg" priority />
+            <span className="text-2xl font-semibold text-gray-900">
+              {brandConfig.name}
+            </span>
+          </div>
+          <div className="space-y-1.5">
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900">Welcome back</h2>
+            <p className="text-sm text-gray-500">Sign in to continue your journey</p>
+          </div>
         </header>
 
         {/* Global OAuth error */}

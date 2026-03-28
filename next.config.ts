@@ -15,6 +15,12 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "lh3.googleusercontent.com" },
       // GitHub account avatars
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
+      // GitHub user-attachment assets (brand logo)
+      {
+        protocol: "https",
+        hostname: "github.com",
+        pathname: "/user-attachments/assets/**",
+      },
     ],
   },
 };
