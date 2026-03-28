@@ -15,13 +15,15 @@ const remotePatterns: NonNullable<NextConfig["images"]>["remotePatterns"] = [
 try {
   const parsedLogoUrl = new URL(logoUrl);
   if (parsedLogoUrl.protocol === "https:") {
-    const hostname = parsedLogoUrl.hostname;
     const pattern: { protocol: "https"; hostname: string; pathname?: string } = {
       protocol: "https",
-      hostname,
+      hostname: parsedLogoUrl.hostname,
     };
 
-    if (hostname === "github.com" && parsedLogoUrl.pathname.startsWith("/user-attachments/assets/")) {
+    if (
+      parsedLogoUrl.hostname === "github.com" &&
+      parsedLogoUrl.pathname.startsWith("/user-attachments/assets/")
+    ) {
       pattern.pathname = "/user-attachments/assets/**";
     }
 

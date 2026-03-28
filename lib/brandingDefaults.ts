@@ -3,6 +3,10 @@
 export const DEFAULT_BRAND_LOGO_URL =
   "https://github.com/user-attachments/assets/2d600265-2a96-4fad-a84e-dd41c8262295";
 
+/**
+ * Returns the configured brand logo URL, falling back to the default asset.
+ * Note: changes to NEXT_PUBLIC_BRAND_LOGO_URL require a rebuild to update the image allowlist.
+ */
 export function getBrandLogoUrl(): string {
   return process.env.NEXT_PUBLIC_BRAND_LOGO_URL ?? DEFAULT_BRAND_LOGO_URL;
 }
