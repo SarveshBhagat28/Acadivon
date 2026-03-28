@@ -21,6 +21,28 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
+function getValidatedFirebaseConfig(): Required<typeof firebaseConfig> | null {
+  if (
+    !firebaseConfig.apiKey ||
+    !firebaseConfig.authDomain ||
+    !firebaseConfig.projectId ||
+    !firebaseConfig.storageBucket ||
+    !firebaseConfig.messagingSenderId ||
+    !firebaseConfig.appId
+  ) {
+    return null;
+  }
+
+  return {
+    apiKey: firebaseConfig.apiKey,
+    authDomain: firebaseConfig.authDomain,
+    projectId: firebaseConfig.projectId,
+    storageBucket: firebaseConfig.storageBucket,
+    messagingSenderId: firebaseConfig.messagingSenderId,
+    appId: firebaseConfig.appId,
+  };
+}
+
 const firebaseEnvVars = [
   ["NEXT_PUBLIC_FIREBASE_API_KEY", firebaseConfig.apiKey],
   ["NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN", firebaseConfig.authDomain],
@@ -34,7 +56,8 @@ const missingFirebaseEnvVars = firebaseEnvVars
   .filter(([, value]) => !value)
   .map(([key]) => key);
 
-const isFirebaseConfigured = missingFirebaseEnvVars.length === 0;
+const validatedFirebaseConfig = getValidatedFirebaseConfig();
+const isFirebaseConfigured = !!validatedFirebaseConfig;
 
 let app: FirebaseApp | undefined;
 let auth: Auth | undefined;
@@ -42,11 +65,11 @@ let firebaseInitError: string | null = null;
 let googleProvider: GoogleAuthProvider | undefined;
 let githubProvider: GithubAuthProvider | undefined;
 
-if (isFirebaseConfigured) {
+if (validatedFirebaseConfig) {
   try {
     app = getApps().length
       ? getApp()
-      : initializeApp(firebaseConfig as Required<typeof firebaseConfig>);
+      : initializeApp(validatedFirebaseConfig);
     auth = getAuth(app);
     googleProvider = new GoogleAuthProvider();
     githubProvider = new GithubAuthProvider();
@@ -90,7 +113,7 @@ function getFirebaseAuthUnavailableMessage(): string {
   );
 }
 
-type AuthProviderName = "Google" | "Apple" | "GitHub";
+type AuthProviderName = "Google";
 
 function getAuthProviderUnavailableMessage(provider: AuthProviderName): string {
   return `${provider} sign-in is currently unavailable. Please contact your administrator.`;
