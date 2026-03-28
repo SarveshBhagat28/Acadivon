@@ -21,7 +21,7 @@ const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Timetable & Attendance", href: "/timetable", icon: Calendar },
   { label: "AI Hub", href: "/ai-hub", icon: BrainCircuit },
-  { label: "Assignments", href: "/assignments", icon: BookOpen },
+  { label: "Assignments", href: "/dashboard/assignments", icon: BookOpen },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Study Tracker", href: "/study-tracker", icon: Timer },
   { label: "Settings", href: "/settings", icon: Settings },
