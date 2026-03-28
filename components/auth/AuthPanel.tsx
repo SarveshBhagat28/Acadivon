@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import GoogleButton from "./GoogleButton";
 import AppleButton from "./AppleButton";
 import EmailForm from "./EmailForm";
@@ -30,8 +30,8 @@ export default function AuthPanel() {
           <div className="flex items-center justify-center gap-3">
             <Logo size="xl" priority />
             <span
-              className="text-3xl font-bold"
-              style={{ color: brandConfig.sidebarColor }}
+              className="text-3xl font-bold text-[color:var(--brand-sidebar-color)]"
+              style={{ "--brand-sidebar-color": brandConfig.sidebarColor } as CSSProperties}
             >
               {brandConfig.name}
             </span>
