@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyIdToken } from "@/lib/auth/firebase-admin";
+import { getFirebaseAdminConfigErrorResponse } from "./utils";
 import { prisma } from "@/lib/db";
 
 export async function POST(request: NextRequest) {
+  const authConfigErrorResponse = getFirebaseAdminConfigErrorResponse();
+  if (authConfigErrorResponse) return authConfigErrorResponse;
+
   try {
     const body = await request.json();
     const { idToken, name, email, college } = body as {
@@ -52,6 +56,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const authConfigErrorResponse = getFirebaseAdminConfigErrorResponse();
+  if (authConfigErrorResponse) return authConfigErrorResponse;
+
   try {
     const authHeader = request.headers.get("authorization");
     if (!authHeader?.startsWith("Bearer ")) {
